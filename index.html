@@ -1,5 +1,6 @@
 <html>
     <head>
+        <meta charset="UTF-8">
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
           <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
           <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
@@ -47,6 +48,22 @@
             background: #ff5252;
             }
 
+            /*空港検索*/
+            .form-name,.form-phone,.form-email{
+            width:80%;
+            margin:0 auto;
+            padding:15px 0;
+            margin-bottom:30px;
+            background-color:whitesmoke;
+            }
+
+            input{
+            padding:5px 10px;
+            min-width:300px;
+            border: 4px solid;
+            border-radius: 8px; 
+            }
+
 
         </style>
 
@@ -58,51 +75,31 @@
             <ul class="tab-head">
 
               <li :class="{ active: activeTab == 1 }">
-                <button
-                   @click="tabChange(1)"
-                 >
-                  天気図
-                </button>
+                <button @click="tabChange(1)">天気図</button>
               </li>
 
               <li :class="{ active: activeTab == 2 }">
-                <button
-                  @click="tabChange(2)"
-                >
-                  気象衛星
-                </button>
+                <button @click="tabChange(2)">雨雲レーダー</button>
               </li>
 
               <li :class="{ active: activeTab == 3 }">
-                <button
-                  @click="tabChange(3)"
-                >
-                  速報天気図SPAS
-                </button>
+                <button @click="tabChange(3)">気象衛星</button>
               </li>
 
               <li :class="{ active: activeTab == 4 }">
-                <button
-                  @click="tabChange(4)"
-                >
-                  予想天気図FSAS24
-                </button>
+                <button @click="tabChange(4)">SCW</button>
               </li>
 
               <li :class="{ active: activeTab == 5 }">
-                <button
-                  @click="tabChange(5)"
-                >
-                  タブ5
-                </button>
+                <button @click="tabChange(5)">METAR</button>
               </li>
 
               <li :class="{ active: activeTab == 6 }">
-                <button
-                  @click="tabChange(6)"
-                >
-                  タブ5
-                </button>
+                <button @click="tabChange(5)">飛行場時系列予報</button>
+              </li>
+
+              <li :class="{ active: activeTab == 7 }">
+                <button @click="tabChange(6)">ライブカメラ</button>
               </li>
 
             </ul>
@@ -116,18 +113,54 @@
 
                     <div class="vue_radio">
                       <div class="tabs">
+
                         <input type="radio" id="tab1" name="tab" value="1" v-model="isActive">
                         <label for="tab1">SPAS</label>
+
                         <input type="radio" id="tab2" name="tab" value="2" v-model="isActive">
                         <label for="tab2">FSAS24</label>
+
                         <input type="radio" id="tab3" name="tab" value="3" v-model="isActive">
-                        <label for="tab3">タブ3</label>
+                        <label for="tab3">FSAS48</label>
+
+                        <input type="radio" id="tab4" name="tab" value="4" v-model="isActive">
+                        <label for="tab4">AUPQ78</label>
+
+                        <input type="radio" id="tab5" name="tab" value="5" v-model="isActive">
+                        <label for="tab5">AUPQ35</label>
+
+                        <input type="radio" id="tab6" name="tab" value="6" v-model="isActive">
+                        <label for="tab6">FXFE502</label>
+
+                        <input type="radio" id="tab7" name="tab" value="7" v-model="isActive">
+                        <label for="tab7">FXFE504</label>
+
+                        <input type="radio" id="tab8" name="tab" value="8" v-model="isActive">
+                        <label for="tab8">FXFE5782</label>
+
+                        <input type="radio" id="tab9" name="tab" value="9" v-model="isActive">
+                        <label for="tab9">FXFE5784</label>
+
+                        <input type="radio" id="tab10" name="tab" value="10" v-model="isActive">
+                        <label for="tab10">FXJP854</label>
+
+                        <input type="radio" id="tab11" name="tab" value="11" v-model="isActive">
+                        <label for="tab11">FEFE19</label>
+
                       </div>
                 
                       <ul class="contents">
-                        <li v-if="isActive === '1'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F014.png"  width="800px" height="800px"></li>
-                        <li v-else-if="isActive === '2'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F019.png"  width="1050px" height="900px"></li>
-                        <li v-else-if="isActive === '3'">コンテンツ3コンテンツ3コンテンツ3コンテンツ3</li>
+                        <li v-if="isActive === '1'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F014.png"  width="600px" height="600px"></li>
+                        <li v-else-if="isActive === '2'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F019.png"  width="900px" height="750px"></li>
+                        <li v-else-if="isActive === '3'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F042.png"  width="900px" height="750px"></li>
+                        <li v-else-if="isActive === '4'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F038.png"  width="500px" height="700x"></li>
+                        <li v-else-if="isActive === '5'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F040.png"  width="500px" height="700px"></li>
+                        <li v-else-if="isActive === '6'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F030.png"  width="850px" height="700px"></li>
+                        <li v-else-if="isActive === '7'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F032.png"  width="850px" height="700px"></li>
+                        <li v-else-if="isActive === '8'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F034.png"  width="850px" height="700px"></li>
+                        <li v-else-if="isActive === '9'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F036.png"  width="850px" height="700px"></li>
+                        <li v-else-if="isActive === '10'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F026.png"  width="600px" height="700px"></li>
+                        <li v-else-if="isActive === '11'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F190.png"  width="750px" height="700px"></li>
                       </ul>
                     </div>
                 
@@ -143,35 +176,64 @@
                >
 
                 <!-- <div class="tab2">TABコンテンツ2</div> -->
-                <iframe src= "https://www.jma.go.jp/bosai/map.html#5/34.507/137.021/&elem=ir&contents=himawari"  width="1100px" height="1100px"></iframe>
+                <iframe src= "https://www.jma.go.jp/bosai/nowc/#zoom:5/lat:34.234512/lon:136.713867/colordepth:deep/elements:amds_rain10m&hrpns"  width="1000px" height="900px"></iframe>
               </div>
 
               <div
                 v-else-if="activeTab == 3"
                >
                 <!--<div class="tab3">TABコンテンツ3</div> -->
-                <img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F014.png"  width="800px" height="800px">
+                <iframe src= "https://www.jma.go.jp/bosai/map.html#5/34.507/137.021/&elem=ir&contents=himawari"  width="1000px" height="900px"></iframe>
               </div>
 
               <div
                 v-else-if="activeTab == 4"
                >
                 <!--<div class="tab3">TABコンテンツ4</div> -->
-                <img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F019.png"  width="1050px" height="900px">
+                <iframe src= "https://supercweather.com"  width="1000px" height="900px"></iframe>
               </div>
 
               <div
                 v-else-if="activeTab == 5"
                >
                 <!--<div class="tab3">TABコンテンツ5</div> -->
-                <iframe src= "https://www.jma.go.jp/bosai/rain/rain.html"  width="1100px" height="1100px"></iframe>
+
+                <!-- 名前フォーム -->
+                <div class="form-name">
+                    <p>空港検索（4レター大文字）</p>
+                    <input type="text" name="name" placeholder="ここに空港4レターを大文字で入力" v-model="name">
+                    <button v-on:click ="searchAirport">&nbsp;&nbsp;&nbsp;  表示する</button>
+                    <!-- <p>{{name}}</p >-->
+                </div>
+
+
+                <div id="display_area"></div>
+
               </div>
 
               <div
                 v-else-if="activeTab == 6"
                >
                 <!--<div class="tab3">TABコンテンツ5</div> -->
-                <iframe src= "https://www.jma.go.jp/bosai/rain/rain.html"  width="1100px" height="1100px"></iframe>
+
+                <!-- 名前フォーム -->
+                <div class="form-name">
+                    <p>空港検索（4レター大文字）</p>
+                    <input type="text" name="name" placeholder="ここに空港4レターを大文字で入力" v-model="name">
+                    <button v-on:click ="searchAirportForecast">&nbsp;&nbsp;&nbsp;  表示する</button>
+                    <!-- <p>{{name}}</p >-->
+                </div>
+
+
+                <div id="display_area"></div>
+
+              </div>
+
+              <div
+                v-else-if="activeTab == 7"
+               >
+                <!--<div class="tab3">TABコンテンツ5</div> -->
+                <iframe src="https://www.google.com/maps/d/embed?mid=17mZqdNeESYl2iyve6KntQp3vZkjWdILd&hl=ja&ehbc=2E312F" width="1000" height="700"></iframe>
               </div>
 
 
@@ -188,15 +250,25 @@
                 data: {
                     activeTab: 1,
                     isActive: '1',
+                    name: '',
                 },
                 methods: {
                     tabChange(id) {
                     this.activeTab = id
+                    },
+
+                    searchAirportForecast(){
+                        var url = "https://www.data.jma.go.jp/airinfo/data/pict/taf/QMCD98_" + this.name + ".png";
+                        console.log(url);
+                        var htmlTemplate1 = `<img src ="` + url + `"  >`;
+                        console.log(htmlTemplate1);
+                        document.getElementById('display_area').innerHTML = htmlTemplate1 ;
                     }
+
                 }
             })
 
-            
+            //https://www.data.jma.go.jp/airinfo/data/pict/taf/QMCD98_RJTT.png
 
         </script>
 

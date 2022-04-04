@@ -31,6 +31,7 @@
             }
             .tab-body {
             padding: 16px 0;
+            text-align: center;
             }
             .tab1,
             .tab2,
@@ -64,11 +65,28 @@
             border-radius: 8px; 
             }
 
+            .title{
+              text-align: center;
+            }
+
+            #searchForm{
+              text-align: center;
+              margin-right: auto;
+              margin-left: auto;
+              max-width:400px;
+            }
+
+            
+
 
         </style>
 
         </head>
         <body>
+        <div class ="title">
+            <img src ="forecasterLogo.PNG">
+        </div>
+
         <div id="app">
           <v-app>
             <v-container>
@@ -95,11 +113,11 @@
               </li>
 
               <li :class="{ active: activeTab == 6 }">
-                <button @click="tabChange(5)">飛行場時系列予報</button>
+                <button @click="tabChange(6)">飛行場時系列予報</button>
               </li>
 
               <li :class="{ active: activeTab == 7 }">
-                <button @click="tabChange(6)">ライブカメラ</button>
+                <button @click="tabChange(7)">ライブカメラ</button>
               </li>
 
             </ul>
@@ -202,12 +220,13 @@
                 <div class="form-name">
                     <p>空港検索（4レター大文字）</p>
                     <input type="text" name="name" placeholder="ここに空港4レターを大文字で入力" v-model="name">
-                    <button v-on:click ="searchAirport">&nbsp;&nbsp;&nbsp;  表示する</button>
+                    <button v-on:click ="searchMETAR">&nbsp;&nbsp;&nbsp;  表示する</button>
                     <!-- <p>{{name}}</p >-->
                 </div>
 
 
-                <div id="display_area"></div>
+                <div id="display_area1"></div>
+                <iframe src ="https://aviationweather.gov/metar/data?ids=RJTT&format=raw&date=&hours=0&taf=on"></iframe>
 
               </div>
 
@@ -219,13 +238,23 @@
                 <!-- 名前フォーム -->
                 <div class="form-name">
                     <p>空港検索（4レター大文字）</p>
-                    <input type="text" name="name" placeholder="ここに空港4レターを大文字で入力" v-model="name">
-                    <button v-on:click ="searchAirportForecast">&nbsp;&nbsp;&nbsp;  表示する</button>
+                    <!-- <input type="text" name="name" placeholder="ここに空港4レターを大文字で入力" v-model="name"> -->
+                    <div id = "searchForm">
+                      <v-text-field v-model="name" :rules="nameRules" :counter="4" label="ここに空港4レターコードを大文字で入力" required></v-text-field>
+                    </div>
+                    
+                    <v-btn dark rounded color="light-blue" v-on:click ="searchAirportForecast">表示する</v-btn>
                     <!-- <p>{{name}}</p >-->
                 </div>
 
+                <div id = "SwitchDisplay">
+                  <v-btn dark rounded color="light-green" v-on:click = "switchDisplay">part1・2切り替え</v-btn>
+                </div>
+                
 
-                <div id="display_area"></div>
+
+                <div id="display_area2"></div>
+                <div id="display_area3"></div>
 
               </div>
 
@@ -244,6 +273,14 @@
         </div>
 
         <script>
+            //飛行場時系列予報PART2を隠す
+            const displayAera3 = document.getElementById('display_area3');
+            displayAera3.style.display = "none";
+
+            //飛行場時系列予報のPART1.2切り替えスイッチを最初は隠す
+            const switch1 = document.getElementById('SwitchDisplay');
+            switch1.style.display = "none";
+
             new Vue({
                 el: "#app",
                 vuetify: new Vuetify(),
@@ -251,18 +288,65 @@
                     activeTab: 1,
                     isActive: '1',
                     name: '',
+                    nameRules: [
+                      v => !!v || 'Airport Code is required',
+                      v => v.length <= 4 || 'Name must be less than 4 characters',
+                    ],
                 },
                 methods: {
                     tabChange(id) {
                     this.activeTab = id
                     },
 
+                    searchMETAR(){
+                        var urlMETAR = "https://aviationweather.gov/metar/data?ids=" + this.name + "&format=raw&date=&hours=0&taf=on"
+                        console.log(urlMETAR);
+                        var htmlTemplate1 = `<img src ="` + urlMETAR + `"  >`;
+                        console.log(htmlTemplate1);
+                        document.getElementById('display_area1').innerHTML = htmlTemplate1 ;
+                    },
+
                     searchAirportForecast(){
                         var url = "https://www.data.jma.go.jp/airinfo/data/pict/taf/QMCD98_" + this.name + ".png";
                         console.log(url);
-                        var htmlTemplate1 = `<img src ="` + url + `"  >`;
-                        console.log(htmlTemplate1);
-                        document.getElementById('display_area').innerHTML = htmlTemplate1 ;
+                        var htmlTemplate2 = `<img src ="` + url + `"  >`;
+                        console.log(htmlTemplate2);
+                        document.getElementById('display_area2').innerHTML = htmlTemplate2 ;
+
+                        var urlPart2 = "https://www.data.jma.go.jp/airinfo/data/pict/taf/QMCJ98_" + this.name + ".png";
+                        console.log(urlPart2);
+                        var htmlTemplate3 = `<img src ="` + urlPart2 + `"  >`;
+                        console.log(htmlTemplate3);
+                        document.getElementById('display_area3').innerHTML = htmlTemplate3 ;
+                        //const displayAera3 = document.getElementById('display_area3');
+                        //displayAera3.style.display = "none";
+                        const switch2 = document.getElementById('SwitchDisplay');
+                        switch2.style.display = "block";
+
+                    },
+
+                    /*
+                    searchAirportForecastPart2(){
+                        var urlPart2 = "https://www.data.jma.go.jp/airinfo/data/pict/taf/QMCJ98_" + this.name + ".png";
+                        console.log(urlPart2);
+                        var htmlTemplate3 = `<img src ="` + urlPart2 + `"  >`;
+                        console.log(htmlTemplate3);
+                        document.getElementById('display_area3').innerHTML = htmlTemplate3 ;
+                    },
+                    */
+                    
+                    switchDisplay(){
+                        const part1 = document.getElementById('display_area2');
+                        const part2 = document.getElementById('display_area3');
+
+                        if(part1.style.display == "block"){
+                            part1.style.display = "none";
+                            part2.style.display = "block";
+                        }else {
+                            part1.style.display = "block";
+                            part2.style.display = "none";
+                        }
+
                     }
 
                 }

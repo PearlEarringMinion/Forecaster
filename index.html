@@ -84,11 +84,22 @@
         </head>
         <body>
         <div class ="title">
-            <img src ="forecasterLogo.PNG">
+            
+            <!-- <img src ="forecasterLogo.PNG"> -->
         </div>
 
         <div id="app">
           <v-app>
+            <v-app-bar color="primary" dark app>
+            <h1>Forecaster☂</h1>
+            <v-spacer></v-spacer>
+            <v-btn　outlined>Button</v-btn>
+
+            </v-app-bar>
+
+            <br><br><br>
+
+            
             <v-container>
             <ul class="tab-head">
 
@@ -194,21 +205,22 @@
                >
 
                 <!-- <div class="tab2">TABコンテンツ2</div> -->
-                <iframe src= "https://www.jma.go.jp/bosai/nowc/#zoom:5/lat:34.234512/lon:136.713867/colordepth:deep/elements:amds_rain10m&hrpns"  width="1000px" height="900px"></iframe>
+                
+                <iframe src= "https://www.jma.go.jp/bosai/nowc/#zoom:5/lat:34.234512/lon:136.713867/colordepth:deep/elements:amds_rain10m&hrpns"  width="1000px" height="800px"></iframe>
               </div>
 
               <div
                 v-else-if="activeTab == 3"
                >
                 <!--<div class="tab3">TABコンテンツ3</div> -->
-                <iframe src= "https://www.jma.go.jp/bosai/map.html#5/34.507/137.021/&elem=ir&contents=himawari"  width="1000px" height="900px"></iframe>
+                <iframe src= "https://www.jma.go.jp/bosai/map.html#5/34.507/137.021/&elem=ir&contents=himawari"  width="1000px" height="800px"></iframe>
               </div>
 
               <div
                 v-else-if="activeTab == 4"
                >
                 <!--<div class="tab3">TABコンテンツ4</div> -->
-                <iframe src= "https://supercweather.com"  width="1000px" height="900px"></iframe>
+                <iframe src= "https://supercweather.com"  width="1000px" height="800px"></iframe>
               </div>
 
               <div
@@ -218,7 +230,7 @@
 
                 <!-- 名前フォーム -->
                 <div class="form-name">
-                    <p>空港検索（4レター大文字）</p>
+                    <p>空港検索</p>
                     <input type="text" name="name" placeholder="ここに空港4レターを大文字で入力" v-model="name">
                     <button v-on:click ="searchMETAR">&nbsp;&nbsp;&nbsp;  表示する</button>
                     <!-- <p>{{name}}</p >-->
@@ -237,7 +249,7 @@
 
                 <!-- 名前フォーム -->
                 <div class="form-name">
-                    <p>空港検索（4レター大文字）</p>
+                    <p>空港検索</p>
                     <!-- <input type="text" name="name" placeholder="ここに空港4レターを大文字で入力" v-model="name"> -->
                     <div id = "searchForm">
                       <v-text-field v-model="name" :rules="nameRules" :counter="4" label="ここに空港4レターコードを大文字で入力" required></v-text-field>
@@ -262,7 +274,7 @@
                 v-else-if="activeTab == 7"
                >
                 <!--<div class="tab3">TABコンテンツ5</div> -->
-                <iframe src="https://www.google.com/maps/d/embed?mid=17mZqdNeESYl2iyve6KntQp3vZkjWdILd&hl=ja&ehbc=2E312F" width="1000" height="700"></iframe>
+                <iframe src="https://www.google.com/maps/d/embed?mid=17mZqdNeESYl2iyve6KntQp3vZkjWdILd&hl=ja&ehbc=2E312F" width="1000" height="800"></iframe>
               </div>
 
 

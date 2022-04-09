@@ -2,10 +2,10 @@
     <head>
         <meta charset="UTF-8">
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-          <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
-          <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-         <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
 
         <style>
@@ -13,6 +13,7 @@
             display: flex;
             padding-left: 0!important;
             list-style: none;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
             }
             .tab-head li {
             border-bottom: 2px solid #ccc;
@@ -76,6 +77,30 @@
               max-width:400px;
             }
 
+            .tabs{
+              padding: 0.5em 1em;
+               margin-top: 5px;
+               margin-bottom: 1em;
+               color: #5d627b;
+               background: white;
+               background-color: white;
+               box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
+            }
+            
+            .radioButton{
+              display:none;
+            }
+
+            .radioButtonLabel{
+              margin-right: 50px;
+              cursor: pointer;
+            }
+
+            .radioButton:checked + .radioButtonLabel{
+              color: #5bc8ac;
+              font-weight: bold;
+            }
+
             
 
 
@@ -93,8 +118,12 @@
             <v-app-bar color="primary" dark app>
             <h1>Forecaster☂</h1>
             <v-spacer></v-spacer>
+            <small id="realtime"></small>
+  
+            
+
             <v-toolbar-items>
-                <v-btn　text>
+                <v-btn　text >
                     <v-icon>mdi-magnify</v-icon>
                 </v-btn>
             </v-toolbar-items>
@@ -133,7 +162,7 @@
               </li>
 
               <li :class="{ active: activeTab == 4 }">
-                <button @click="tabChange(4)">SCW</button>
+                <button @click="tabChange(4)">モデル予報</button>
               </li>
 
               <li :class="{ active: activeTab == 5 }">
@@ -160,38 +189,38 @@
                     <div class="vue_radio">
                       <div class="tabs">
 
-                        <input type="radio" id="tab1" name="tab" value="1" v-model="isActive">
-                        <label for="tab1">SPAS</label>
+                        <input type="radio" class="radioButton" id="tab1" name="tab" value="1" v-model="isActive">
+                        <label for="tab1" class="radioButtonLabel">SPAS</label>
 
-                        <input type="radio" id="tab2" name="tab" value="2" v-model="isActive">
-                        <label for="tab2">FSAS24</label>
+                        <input type="radio" class="radioButton" id="tab2" name="tab" value="2" v-model="isActive">
+                        <label for="tab2" class="radioButtonLabel">FSAS24</label>
 
-                        <input type="radio" id="tab3" name="tab" value="3" v-model="isActive">
-                        <label for="tab3">FSAS48</label>
+                        <input type="radio" class="radioButton" id="tab3" name="tab" value="3" v-model="isActive">
+                        <label for="tab3" class="radioButtonLabel">FSAS48</label>
 
-                        <input type="radio" id="tab4" name="tab" value="4" v-model="isActive">
-                        <label for="tab4">AUPQ78</label>
+                        <input type="radio" class="radioButton" id="tab4" name="tab" value="4" v-model="isActive">
+                        <label for="tab4" class="radioButtonLabel">AUPQ78</label>
 
-                        <input type="radio" id="tab5" name="tab" value="5" v-model="isActive">
-                        <label for="tab5">AUPQ35</label>
+                        <input type="radio" class="radioButton" id="tab5" name="tab" value="5" v-model="isActive">
+                        <label for="tab5" class="radioButtonLabel">AUPQ35</label>
 
-                        <input type="radio" id="tab6" name="tab" value="6" v-model="isActive">
-                        <label for="tab6">FXFE502</label>
+                        <input type="radio" class="radioButton" id="tab6" name="tab" value="6" v-model="isActive">
+                        <label for="tab6" class="radioButtonLabel">FXFE502</label>
 
-                        <input type="radio" id="tab7" name="tab" value="7" v-model="isActive">
-                        <label for="tab7">FXFE504</label>
+                        <input type="radio" class="radioButton" id="tab7" name="tab" value="7" v-model="isActive">
+                        <label for="tab7" class="radioButtonLabel">FXFE504</label>
 
-                        <input type="radio" id="tab8" name="tab" value="8" v-model="isActive">
-                        <label for="tab8">FXFE5782</label>
+                        <input type="radio" class="radioButton" id="tab8" name="tab" value="8" v-model="isActive">
+                        <label for="tab8" class="radioButtonLabel">FXFE5782</label>
 
-                        <input type="radio" id="tab9" name="tab" value="9" v-model="isActive">
-                        <label for="tab9">FXFE5784</label>
+                        <input type="radio" class="radioButton" id="tab9" name="tab" value="9" v-model="isActive">
+                        <label for="tab9" class="radioButtonLabel">FXFE5784</label>
 
-                        <input type="radio" id="tab10" name="tab" value="10" v-model="isActive">
-                        <label for="tab10">FXJP854</label>
+                        <input type="radio" class="radioButton" id="tab10" name="tab" value="10" v-model="isActive">
+                        <label for="tab10" class="radioButtonLabel">FXJP854</label>
 
-                        <input type="radio" id="tab11" name="tab" value="11" v-model="isActive">
-                        <label for="tab11">FEFE19</label>
+                        <input type="radio" class="radioButton" id="tab11" name="tab" value="11" v-model="isActive">
+                        <label for="tab11" class="radioButtonLabel">FEFE19</label>
 
                       </div>
                 
@@ -237,8 +266,27 @@
                 v-else-if="activeTab == 4"
                >
                 <!--<div class="tab3">TABコンテンツ4</div> -->
-                <iframe src= "https://supercweather.com"  width="1000px" height="800px"></iframe>
+                <div class="vue_radio">
+                  <div class="tabs">
+
+                    <input type="radio" class="radioButton" id="tab1" name="tab" value="12" v-model="isActive">
+                    <label for="tab1" class="radioButtonLabel">SCW</label>
+
+                    <input type="radio" class="radioButton" id="tab2" name="tab" value="13" v-model="isActive">
+                    <label for="tab2" class="radioButtonLabel">GPV</label>
+
+
+                  </div>
+            
+                  <ul class="contents">
+                    <li v-if="isActive === '12'"><iframe src= "https://supercweather.com/"  width="1000px" height="750px"></iframe></li>
+                    <li v-else-if="isActive === '13'"><iframe src= "http://weather-gpv.info/"  width="1000px" height="750px"></iframe></li>
+                  </ul>
+                </div>
+            
               </div>
+
+              
 
               <div
                 v-else-if="activeTab == 5"
@@ -272,12 +320,12 @@
                       <v-text-field v-model="name" :rules="nameRules" :counter="4" label="ここに空港4レターコードを大文字で入力" required></v-text-field>
                     </div>
                     
-                    <v-btn dark rounded color="light-blue" v-on:click ="searchAirportForecast">表示する</v-btn>
+                    <v-btn small dark rounded color="light-blue" v-on:click ="searchAirportForecast">表示する</v-btn>
                     <!-- <p>{{name}}</p >-->
                 </div>
 
                 <div id = "SwitchDisplay">
-                  <v-btn dark rounded color="light-green" v-on:click = "switchDisplay">part1・2切り替え</v-btn>
+                  <v-btn x-small dark rounded color="light-green" v-on:click = "switchDisplay">part1・2切り替え</v-btn>
                 </div>
                 
 
@@ -290,10 +338,12 @@
               <div
                 v-else-if="activeTab == 7"
                >
-                <!--<div class="tab3">TABコンテンツ5</div> -->
                 <iframe src="https://www.google.com/maps/d/embed?mid=17mZqdNeESYl2iyve6KntQp3vZkjWdILd&hl=ja&ehbc=2E312F" width="1000" height="800"></iframe>
+                
               </div>
 
+              
+              
 
 
             </div>
@@ -310,6 +360,22 @@
             const switch1 = document.getElementById('SwitchDisplay');
             switch1.style.display = "none";
 
+            //utc時間表示
+            function displayUtcTime(){
+                      var time = new Date(); 
+                      var monthUTC = time.getUTCMonth();
+                      var dateUTC = time.getUTCDay();
+                      var hourUTC = time.getUTCHours();
+                      var miniutesUTC = time.getUTCMinutes();
+                      //var utcTime = time.toUTCString();
+
+                      var utcTime = monthUTC + "月" + dateUTC + "日" + hourUTC + "時" + miniutesUTC + "分" + "(UTC)";
+                      console.log(utcTime);
+                      document.getElementById("realtime").innerHTML = utcTime;
+            }
+
+            setInterval('displayUtcTime()',1000);
+
             new Vue({
                 el: "#app",
                 vuetify: new Vuetify(),
@@ -324,7 +390,7 @@
                 },
                 methods: {
                     tabChange(id) {
-                    this.activeTab = id
+                      this.activeTab = id
                     },
 
                     searchMETAR(){
@@ -376,7 +442,7 @@
                             part2.style.display = "none";
                         }
 
-                    }
+                    },
 
                 }
             })

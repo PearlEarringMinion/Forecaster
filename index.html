@@ -8,8 +8,6 @@
         <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
 
-
-
         <style>
             .tab-head {
             display: flex;
@@ -94,7 +92,7 @@
             }
 
             .radioButtonLabel{
-              margin-right: 30px;
+              margin-right: 50px;
               cursor: pointer;
             }
 
@@ -102,6 +100,13 @@
               color: #5bc8ac;
               font-weight: bold;
             }
+
+            /*（・）を消す処理*/
+            ul {
+              list-style: none;
+            }
+
+            
 
 
         </style>
@@ -118,13 +123,20 @@
             <v-app-bar color="primary" dark app>
             <h1>Forecaster☂</h1>
             <v-spacer></v-spacer>
-            <small id="realtime"></small>
+              <div id="UTC">
+                <div id="realtimeUTC"></div>
+              </div>
+            
+              <div id="JST">
+                <div id="realtimeJST"></div>
+              </div>
+            
   
             
 
             <v-toolbar-items>
-                <v-btn　text >
-                    <v-icon>mdi-magnify</v-icon>
+                <v-btn @click="switchTime" icon >
+                    <v-icon>mdi-clock-time-four-outline</v-icon>
                 </v-btn>
             </v-toolbar-items>
                 
@@ -144,7 +156,7 @@
             </v-app-bar>
 
             <br><br><br>
-            
+
             
             <v-container>
             <ul class="tab-head">
@@ -174,6 +186,10 @@
               </li>
 
               <li :class="{ active: activeTab == 7 }">
+                <button @click="tabChange(7)">下層悪天予想図</button>
+              </li>
+
+              <li :class="{ active: activeTab == 8 }">
                 <button @click="tabChange(7)">ライブカメラ</button>
               </li>
 
@@ -224,6 +240,7 @@
 
                       </div>
                 
+                      <div id="chartUTC00">
                       <ul class="contents">
                         <li v-if="isActive === '1'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F014.png"  width="600px" height="600px"></li>
                         <li v-else-if="isActive === '2'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F019.png"  width="900px" height="750px"></li>
@@ -237,6 +254,29 @@
                         <li v-else-if="isActive === '10'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F026.png"  width="600px" height="700px"></li>
                         <li v-else-if="isActive === '11'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F190.png"  width="750px" height="700px"></li>
                       </ul>
+                      </div>
+                      
+
+                      
+                      <div id="chartUTC12">
+                        <ul class="contents">
+                          <li v-if="isActive === '1'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F014.png"  width="600px" height="600px"></li>
+                          <li v-else-if="isActive === '2'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F020.png"  width="900px" height="750px"></li>
+                          <li v-else-if="isActive === '3'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F043.png"  width="900px" height="750px"></li>
+                          <li v-else-if="isActive === '4'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F039.png"  width="500px" height="700x"></li>
+                          <li v-else-if="isActive === '5'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F041.png"  width="500px" height="700px"></li>
+                          <li v-else-if="isActive === '6'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F031.png"  width="850px" height="700px"></li>
+                          <li v-else-if="isActive === '7'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F033.png"  width="850px" height="700px"></li>
+                          <li v-else-if="isActive === '8'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F035.png"  width="850px" height="700px"></li>
+                          <li v-else-if="isActive === '9'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F037.png"  width="850px" height="700px"></li>
+                          <li v-else-if="isActive === '10'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F027.png"  width="600px" height="700px"></li>
+                          <li v-else-if="isActive === '11'"><img src= "https://s3-ap-northeast-1.amazonaws.com/idea.bioweather.net/current/rfax/F190.png"  width="750px" height="700px"></li>
+                        </ul>
+                      </div>
+                    
+
+                      
+
                     </div>
                 
                   </div>
@@ -293,17 +333,23 @@
                >
                 <!--<div class="tab3">TABコンテンツ5</div> -->
 
-                <!-- 名前フォーム -->
                 <div class="form-name">
-                    <p>空港検索</p>
-                    <input type="text" name="name" placeholder="ここに空港4レターを大文字で入力" v-model="name">
-                    <button v-on:click ="searchMETAR">&nbsp;&nbsp;&nbsp;  表示する</button>
-                    <!-- <p>{{name}}</p >-->
-                </div>
+                  <h2>METAR検索</h2>
+                  <!-- <input type="text" name="name" placeholder="ここに空港4レターを大文字で入力" v-model="name"> -->
+                  <div id = "searchForm">
+                    <v-text-field v-model="name" :rules="nameRules" :counter="4" label="ここに空港4レターコードを大文字で入力" required></v-text-field>
+                  </div>
+                  
+                  <v-btn small dark rounded color="light-blue" v-on:click ="searchMETAR">表示する</v-btn>
+                  <!-- <p>{{name}}</p >-->
+                  <br>
+                  <br>
+                  <small>新しいタブで最新METARが表示されます。</small>
+              </div>
 
 
-                <div id="display_area1"></div>
-                <iframe src ="https://aviationweather.gov/metar/data?ids=RJTT&format=raw&date=&hours=0&taf=on"></iframe>
+                <!-- <div id="display_area1"></div> -->
+                
 
               </div>
 
@@ -314,7 +360,7 @@
 
                 <!-- 名前フォーム -->
                 <div class="form-name">
-                    <p>空港検索</p>
+                    <h2>空港検索</h2>
                     <!-- <input type="text" name="name" placeholder="ここに空港4レターを大文字で入力" v-model="name"> -->
                     <div id = "searchForm">
                       <v-text-field v-model="name" :rules="nameRules" :counter="4" label="ここに空港4レターコードを大文字で入力" required></v-text-field>
@@ -337,6 +383,13 @@
 
               <div
                 v-else-if="activeTab == 7"
+               >
+               <img src ="https://www.data.jma.go.jp/airinfo/data/pict/low-level_sigwx/fbtk39.png">
+                
+              </div>
+
+              <div
+                v-else-if="activeTab == 8"
                >
                 <iframe src="https://www.google.com/maps/d/embed?mid=17mZqdNeESYl2iyve6KntQp3vZkjWdILd&hl=ja&ehbc=2E312F" width="1000" height="800"></iframe>
                 
@@ -369,12 +422,53 @@
                       var miniutesUTC = time.getUTCMinutes();
                       //var utcTime = time.toUTCString();
 
-                      var utcTime = monthUTC + "月" + dateUTC + "日" + hourUTC + "時" + miniutesUTC + "分" + "(UTC)";
+                      var utcTime = hourUTC + "時" + miniutesUTC + "分" + "(UTC)";
                       console.log(utcTime);
-                      document.getElementById("realtime").innerHTML = utcTime;
+                      document.getElementById("realtimeUTC").innerHTML = utcTime;
             }
 
             setInterval('displayUtcTime()',1000);
+
+            //utc時間とjst時間の切り替え
+            function switchTime(){
+                      const UTC = document.getElementById('UTC');
+                      const JST = document.getElementById('JST');
+
+                      UTC.style.display = "none";
+
+                      /*
+                      if(UTC.style.display == "block"){
+                            UTC.style.display = "none";
+                            JST.style.display = "block";
+                        }else {
+                            UTC.style.display = "block";
+                            JST.style.display = "none";
+                        }
+                        */
+            }
+
+            
+            
+
+            function switchChart(){
+                      var time = new Date(); 
+                      var hourUTC = time.getUTCHours();
+                      //hourUTC = 13; //【!!!!CAUTION!!!!】テスト用の代入
+                      console.log(hourUTC);
+                      const chart00 = document.getElementById('chartUTC00');
+                      const chart12 = document.getElementById('chartUTC12');
+
+                      if (hourUTC < 12){
+                        chart00.style.display = "block";
+                        chart12.style.display = "none";
+                      }else if(12 < hourUTC < 24){
+                        chart00.style.display = "none";
+                        chart12.style.display = "block";
+                      }
+                      
+            }
+
+            switchChart();
 
 
             new Vue({
@@ -395,11 +489,9 @@
                     },
 
                     searchMETAR(){
-                        var urlMETAR = "https://aviationweather.gov/metar/data?ids=" + this.name + "&format=raw&date=&hours=0&taf=on"
+                        var urlMETAR = "https://tgftp.nws.noaa.gov/data/observations/metar/stations/" + this.name + ".TXT"
                         console.log(urlMETAR);
-                        var htmlTemplate1 = `<img src ="` + urlMETAR + `"  >`;
-                        console.log(htmlTemplate1);
-                        document.getElementById('display_area1').innerHTML = htmlTemplate1 ;
+                        window.open(urlMETAR, '_blank');
                     },
 
                     searchAirportForecast(){
@@ -444,9 +536,6 @@
                         }
 
                     },
-
-                    
-                    
 
                 }
             })

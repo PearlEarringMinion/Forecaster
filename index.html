@@ -123,20 +123,13 @@
             <v-app-bar color="primary" dark app>
             <h1>Forecaster☂</h1>
             <v-spacer></v-spacer>
-              <div id="UTC">
-                <div id="realtimeUTC"></div>
-              </div>
-            
-              <div id="JST">
-                <div id="realtimeJST"></div>
-              </div>
-            
+            <small id="realtime"></small>
   
             
 
             <v-toolbar-items>
-                <v-btn @click="switchTime" icon >
-                    <v-icon>mdi-clock-time-four-outline</v-icon>
+                <v-btn　text >
+                    <v-icon>mdi-magnify</v-icon>
                 </v-btn>
             </v-toolbar-items>
                 
@@ -190,7 +183,7 @@
               </li>
 
               <li :class="{ active: activeTab == 8 }">
-                <button @click="tabChange(7)">ライブカメラ</button>
+                <button @click="tabChange(8)">ライブカメラ</button>
               </li>
 
             </ul>
@@ -424,28 +417,10 @@
 
                       var utcTime = hourUTC + "時" + miniutesUTC + "分" + "(UTC)";
                       console.log(utcTime);
-                      document.getElementById("realtimeUTC").innerHTML = utcTime;
+                      document.getElementById("realtime").innerHTML = utcTime;
             }
 
             setInterval('displayUtcTime()',1000);
-
-            //utc時間とjst時間の切り替え
-            function switchTime(){
-                      const UTC = document.getElementById('UTC');
-                      const JST = document.getElementById('JST');
-
-                      UTC.style.display = "none";
-
-                      /*
-                      if(UTC.style.display == "block"){
-                            UTC.style.display = "none";
-                            JST.style.display = "block";
-                        }else {
-                            UTC.style.display = "block";
-                            JST.style.display = "none";
-                        }
-                        */
-            }
 
             
             

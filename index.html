@@ -4,7 +4,7 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
 
@@ -120,30 +120,15 @@
 
         <div id="app">
           <v-app>
-            <v-app-bar color="primary" dark app>
+            <v-app-bar color="teal" dark app>
             <h1>Forecaster☂</h1>
             <v-spacer></v-spacer>
             <small id="realtime"></small>
   
             
 
-            <v-toolbar-items>
-                <v-btn　text >
-                    <v-icon>mdi-magnify</v-icon>
-                </v-btn>
-            </v-toolbar-items>
-                
-            <v-toolbar-items>
-                <v-btn　text>
-                    <v-icon>mdi-map-marker-radius</v-icon>
-                </v-btn>
-            </v-toolbar-items>
+            
 
-            <v-toolbar-items>
-                <v-btn　text>
-                    <v-icon>mdi-email</v-icon>
-                </v-btn>
-            </v-toolbar-items>
             
 
             </v-app-bar>
@@ -416,7 +401,7 @@
                       //var utcTime = time.toUTCString();
 
                       var utcTime = hourUTC + "時" + miniutesUTC + "分" + "(UTC)";
-                      console.log(utcTime);
+                      //console.log(utcTime);
                       document.getElementById("realtime").innerHTML = utcTime;
             }
 
@@ -428,11 +413,12 @@
             function switchChart(){
                       var time = new Date(); 
                       var hourUTC = time.getUTCHours();
-                      //hourUTC = 13; //【!!!!CAUTION!!!!】テスト用の代入
+                      hourUTC = 11; //【!!!!CAUTION!!!!】テスト用の代入
                       console.log(hourUTC);
                       const chart00 = document.getElementById('chartUTC00');
                       const chart12 = document.getElementById('chartUTC12');
 
+                      //20221112からnone/blockを逆にした
                       if (hourUTC < 12){
                         chart00.style.display = "block";
                         chart12.style.display = "none";
@@ -442,6 +428,14 @@
                       }
                       
             }
+
+            let url = 'https://into-the-program.com/wp-json/wp/v2/posts/6129';
+
+fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    });
 
             switchChart();
 
